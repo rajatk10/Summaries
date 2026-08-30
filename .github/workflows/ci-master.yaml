@@ -134,7 +134,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.semver.outputs.new_tag }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ toLower(github.repository) }}:${{ steps.semver.outputs.new_tag }}
+            ghcr.io/${{ toLower(github.repository) }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
