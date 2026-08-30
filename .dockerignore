@@ -1,0 +1,12 @@
+.env
+.git
+.venv
+.coverage
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+logs
+tests
+docs
+compose*.yaml

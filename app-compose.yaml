@@ -1,0 +1,32 @@
+services:
+    db:
+      image: postgres:18.6-bookworm
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres-tdd
+        POSTGRES_DB: summaries-dev
+      healthcheck:
+        test:
+          - CMD-SHELL
+          - pg_isready -U postgres -d summaries-dev
+        interval: 3s
+        timeout: 3s
+        retries: 20
+        start_period: 5s
+      volumes:
+        - postgres_data:/var/lib/postgresql
+
+    app:
+      image: tdd-fastapi-v2
+      environment:
+        ENVIRONMENT: dev
+        DATABASE_URL: postgresql://postgres:postgres-tdd@db:5432/summaries-dev
+      depends_on:
+        db:
+          condition: service_healthy
+      ports:
+        - "8001:8000"
+      restart: on-failure
+
+volumes:
+  postgres_data:
